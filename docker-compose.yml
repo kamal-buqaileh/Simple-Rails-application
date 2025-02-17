@@ -13,7 +13,7 @@ services:
       - redis
 
   db:
-    image: postgres:14
+    image: postgis/postgis:14-3.3   # ✅ Use PostGIS-enabled PostgreSQL image
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password

@@ -12,7 +12,7 @@ help:
 	@echo "  down       Stop and remove containers"
 	@echo "  restart    Restart the app"
 	@echo "  console    Run console in the app container"
-	@echo "  ssh        ssh into the app container"
+	@echo "  bash       ssh into the app container"
 	@echo "  rails      Run a Rails command inside the app container"
 	@echo "  db-setup   Create and migrate the database"
 	@echo "  rubocop    Run rubocop"
@@ -47,11 +47,11 @@ restart:
 # Run console in the app container
 .PHONY: console
 console:
-	docker-compose run rails console
+	docker-compose exec app rails console
 
 # ssh into the app container
-.PHONY: ssh
-ssh:
+.PHONY: bash
+bash:
 	docker-compose exec app bash
 
 # Run a Rails command in the app container
