@@ -31,7 +31,11 @@ RSpec.describe PartnerQueries, type: :model do
       end
 
       it 'logs the error and returns nil' do
-        expect(Rails.logger).to receive(:error).with(/Error fetching partner details for partner_id=#{partner.id}: Test error/)
+        expect(Rails.logger).to receive(:error).with(a_string_including(
+          '"context":"PartnerQueries"',
+          '"error":"Test error"',
+          "\"partner_id\":#{partner.id}"
+        ))
         result = PartnerQueries.partner_details(partner.id)
         expect(result).to be_nil
       end
@@ -78,8 +82,13 @@ RSpec.describe PartnerQueries, type: :model do
       end
 
       it 'logs the error and returns an empty array' do
-        expect(Rails.logger).to receive(:error).with(/Error matching partners: Test error - params: latitude=52.45, longitude=13.35, service_id=#{service.id}, material_id=#{material.id}/)
-        result = PartnerQueries.match_partners(52.45, 13.35, service.id, material.id)
+        expect(Rails.logger).to receive(:error).with(a_string_including(
+          '"context":"PartnerQueries"',
+          '"error":"Test error"',
+          "\"service_id\":#{service.id}",
+          "\"material_id\":#{material.id}"
+        ))
+        result = PartnerQueries.match_partners(0, 0, service.id, material.id)
         expect(result).to eq([])
       end
     end
