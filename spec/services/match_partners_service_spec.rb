@@ -67,17 +67,28 @@ RSpec.describe MatchPartnersService, type: :service do
     context "when an error occurs during matching" do
       before do
         # Simulate an error by stubbing a method in the query chain.
-        allow(Partner).to receive(:select).and_raise(StandardError.new("Test error"))
+        allow(PartnerQueries).to receive(:match_partners).and_raise(StandardError.new("Test error"))
       end
 
       it "logs the error and returns an empty array" do
         # We use a matcher to check that the log contains our expected JSON context.
-        expect(Rails.logger).to receive(:error).with(a_string_including(
-          '"context":"PartnerQueries"',
-          '"error":"Test error"',
-          "\"service_id\":#{service.id}",
-          "\"material_id\":#{material.id}"
-        ))
+        expected_log = {
+          context: "MatchPartnersService",
+          error: "Test error",
+          parameters: {
+            latitude: 52.45,
+            longitude: 13.35,
+            service_id: service.id,
+            material_id: material.id,
+            last_id: 0,
+            limit: 10
+          }
+        }
+
+        expect(Rails.logger).to receive(:error) do |log_message|
+          parsed_log = JSON.parse(log_message, symbolize_names: true)
+          expect(parsed_log.except(:timestamp)).to eq(expected_log)
+        end
         service_obj = MatchPartnersService.new(
           latitude: 52.45,
           longitude: 13.35,

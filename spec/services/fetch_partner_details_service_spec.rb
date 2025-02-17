@@ -35,15 +35,21 @@ RSpec.describe FetchPartnerDetailsService, type: :service do
     context "when an error occurs while fetching partner details" do
       before do
         # Force an error by stubbing the includes method.
-        allow(Partner).to receive(:includes).and_raise(StandardError.new("Test error"))
+        allow(PartnerQueries).to receive(:partner_details).and_raise(StandardError.new("Test error"))
       end
 
       it "logs the error and returns nil" do
-        expect(Rails.logger).to receive(:error).with(a_string_including(
-          '"context":"PartnerQueries"',
-          '"error":"Test error"',
-          '"partner_id":'  # We'll check that partner_id appears in the JSON log.
-        ))
+        expected_log = {
+          context: "FetchPartnerDetailsService",
+          error: "Test error",
+          parameters: {
+            partner_id: partner.id
+          }
+        }
+        expect(Rails.logger).to receive(:error) do |log_message|
+          parsed_log = JSON.parse(log_message, symbolize_names: true)
+          expect(parsed_log.except(:timestamp)).to eq(expected_log)
+        end
         service_obj = FetchPartnerDetailsService.new(partner.id)
         result = service_obj.call
         expect(result).to be_nil

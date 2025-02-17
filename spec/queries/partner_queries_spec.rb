@@ -27,15 +27,22 @@ RSpec.describe PartnerQueries, type: :model do
 
     context 'when an error occurs during fetching' do
       before do
-        allow(Partner).to receive(:includes).and_raise(StandardError.new("Test error"))
+        allow(SlidingCache).to receive(:fetch).and_raise(StandardError.new("Test error"))
       end
 
       it 'logs the error and returns nil' do
-        expect(Rails.logger).to receive(:error).with(a_string_including(
-          '"context":"PartnerQueries"',
-          '"error":"Test error"',
-          "\"partner_id\":#{partner.id}"
-        ))
+        expected_log = {
+          context: "PartnerQueries",
+          error: "Test error",
+          parameters: {
+            partner_id: partner.id
+          }
+        }
+
+        expect(Rails.logger).to receive(:error) do |log_message|
+          parsed_log = JSON.parse(log_message, symbolize_names: true)
+          expect(parsed_log.except(:timestamp)).to eq(expected_log)
+        end
         result = PartnerQueries.partner_details(partner.id)
         expect(result).to be_nil
       end
@@ -78,16 +85,26 @@ RSpec.describe PartnerQueries, type: :model do
     context 'when an error occurs during matching' do
       before do
         # Force an error by stubbing a method in the query chain.
-        allow(Partner).to receive(:select).and_raise(StandardError.new("Test error"))
+        allow(SlidingCache).to receive(:fetch).and_raise(StandardError.new("Test error"))
       end
 
       it 'logs the error and returns an empty array' do
-        expect(Rails.logger).to receive(:error).with(a_string_including(
-          '"context":"PartnerQueries"',
-          '"error":"Test error"',
-          "\"service_id\":#{service.id}",
-          "\"material_id\":#{material.id}"
-        ))
+        expected_log = {
+          context: "PartnerQueries",
+          error: "Test error",
+          parameters: {
+            latitude: 0,
+            longitude: 0,
+            service_id: service.id,
+            material_id: material.id,
+            last_id: 0,
+            limit: 10
+          }
+        }
+        expect(Rails.logger).to receive(:error) do |log_message|
+          parsed_log = JSON.parse(log_message, symbolize_names: true)
+          expect(parsed_log.except(:timestamp)).to eq(expected_log)
+        end
         result = PartnerQueries.match_partners(0, 0, service.id, material.id)
         expect(result).to eq([])
       end
