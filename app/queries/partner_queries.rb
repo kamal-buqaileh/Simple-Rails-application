@@ -14,7 +14,6 @@ class PartnerQueries
   def self.match_partners(latitude, longitude, service_id, material_id, last_id = 0, limit = 10)
     lng = longitude.to_f
     lat = latitude.to_f
-
     # Build a sanitized SQL snippet for the customer's geography point.
     customer_geog_sql = ActiveRecord::Base.sanitize_sql_array(
       [ "ST_SetSRID(ST_MakePoint(?, ?), 4326)::geography", lng, lat ]

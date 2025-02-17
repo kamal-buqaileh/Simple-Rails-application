@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe FetchPartnerDetailsService, type: :service do
   let!(:service)   { create(:service, name: "Flooring") }
   let!(:material)  { create(:material, name: "Wood") }
   let!(:partner)   { create(:partner) }
-  
+
   # Associate the partner with the service and material.
   before do
     create(:partner_service, partner: partner, service: service)

@@ -8,6 +8,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "activerecord-postgis-adapter", "~> 11.0"
 gem "rgeo", "~> 3.0"
 gem "rgeo-activerecord", "~> 8.0"
+gem "jsonapi-serializer"
 
 gem "solid_cache"
 gem "solid_queue"
