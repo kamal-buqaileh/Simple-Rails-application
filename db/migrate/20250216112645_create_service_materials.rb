@@ -8,6 +8,6 @@ class CreateServiceMaterials < ActiveRecord::Migration[8.0]
     end
 
     # Keep the composite index to prevent duplicate service-material pairs
-    add_index :service_materials, [:service_id, :material_id], unique: true
+    add_index :service_materials, [ :service_id, :material_id ], unique: true
   end
 end

@@ -5,9 +5,9 @@ gem "pg", "~> 1.5"
 gem "puma", ">= 5.0"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
-gem 'activerecord-postgis-adapter', '~> 11.0'
-gem 'rgeo', '~> 3.0'
-gem 'rgeo-activerecord', '~> 8.0'
+gem "activerecord-postgis-adapter", "~> 11.0"
+gem "rgeo", "~> 3.0"
+gem "rgeo-activerecord", "~> 8.0"
 
 gem "solid_cache"
 gem "solid_queue"
@@ -23,8 +23,8 @@ group :development, :test do
   gem "brakeman", require: false
 
   gem "rubocop-rails-omakase", require: false
-  gem 'rspec-rails', '~> 6.0'
-  gem 'factory_bot_rails'
-  gem 'faker'
-  gem 'shoulda-matchers', '~> 5.0'
+  gem "rspec-rails", "~> 6.0"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "shoulda-matchers", "~> 5.0"
 end

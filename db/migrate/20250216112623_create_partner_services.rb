@@ -8,6 +8,6 @@ class CreatePartnerServices < ActiveRecord::Migration[8.0]
     end
 
     # Keep the composite index to prevent duplicate partner-service pairs
-    add_index :partner_services, [:partner_id, :service_id], unique: true
+    add_index :partner_services, [ :partner_id, :service_id ], unique: true
   end
 end

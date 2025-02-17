@@ -7,4 +7,3 @@ class Partner < ApplicationRecord
   has_many :service_materials, through: :services
   has_many :materials, through: :service_materials
 end
-

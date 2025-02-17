@@ -58,17 +58,17 @@ bash:
 # Usage: make rails cmd="rails c" or any rails command you want.
 .PHONY: rails
 rails:
-	docker-compose run $(cmd)
+	docker-compose exec app $(cmd)
 
 # Create and migrate the database
 .PHONY: db-setup
 db-setup:
-	docker-compose run rails db:create db:migrate
+	docker-compose exec app rails db:create db:migrate
 
 # run rubocop
 .PHONY: rubocop
 rubocop:
-	docker-compose run rubocop -a
+	docker-compose exec app rubocop -a
 
 # List running containers
 .PHONY: ps
