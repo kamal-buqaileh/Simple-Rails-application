@@ -9,6 +9,7 @@ This project is a Rails API application that demonstrates a full solution for ma
 - [Features](#features)
 - [Installation](#installation)
 - [API endpoints](#api-endpoints)
+- [Assumptions](#assumptions)
 - [Tech decisions and architecture](#tech-decisions-and-architecture)
   - [Why docker](#why-docker)
   - [Why Rails Over Sinatra](#why-rails-over-sinatra)
@@ -119,6 +120,19 @@ NOTE: I'm using `Keyset Pagination` in the matching query instead of `Offset` fo
 
 `GET /api/v1/partners/:id`
 Retrieves detailed information for a single partner. If the partner is not found, the API returns a 404 error with an appropriate message.
+
+--------------------------------------------
+
+# Assumptions
+
+1. Public API:
+  The API is designed as a public interface, so there's no need for a dedicated customer table. This   assumption is based on the observation that users can browse services without signing in.
+
+2. Extensible Services and Materials:
+  The design anticipates that new services and materials may be added in the future. By maintaining separate tables for services and materials, new entries can be added easily—without modifying the codebase or writing complex queries.
+
+3. Caching Strategy:
+  A sliding cache is used to store expensive query results with a configurable expiration time (TTL). The current TTL is chosen to balance performance and traffic; however, this value can be adjusted as we gain a better understanding of the usage patterns.
 
 # Tech-decisions-and-architecture
 
