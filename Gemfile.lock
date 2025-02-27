@@ -121,7 +121,7 @@ GEM
     json (2.10.1)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
-    kamal (2.5.2)
+    kamal (2.5.3)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
@@ -146,8 +146,6 @@ GEM
     marcel (1.0.4)
     mini_mime (1.1.5)
     minitest (5.25.4)
-    mock_redis (0.49.0)
-      redis (~> 5)
     msgpack (1.8.0)
     net-imap (0.5.6)
       date
@@ -332,13 +330,13 @@ GEM
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
-    uri (1.0.2)
+    uri (1.0.3)
     useragent (0.16.11)
     websocket-driver (0.7.7)
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.7.1)
+    zeitwerk (2.7.2)
 
 PLATFORMS
   aarch64-linux
@@ -360,7 +358,6 @@ DEPENDENCIES
   faker
   jsonapi-serializer
   kamal
-  mock_redis
   pg (~> 1.5)
   puma (>= 5.0)
   rails (~> 8.0.1)
