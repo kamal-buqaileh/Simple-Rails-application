@@ -71,8 +71,8 @@ In this application, I used the following:
 1. **Clone the repository:**
 
    ```bash
-   git clone git@github.com:kamal-buqaileh/around_home.git
-   cd around_home
+   git clone git@github.com:kamal-buqaileh/Simple-Rails-application.git
+   cd Simple-Rails-application
    ```
 2. **Build and start the Docker containers**
    
